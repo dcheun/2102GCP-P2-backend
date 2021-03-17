@@ -10,7 +10,7 @@ The backend is written in the Spring Framework utilizing the following technolog
 - Spring DATA
 - Spring AOP
 
-The frontend is written in Angular framework.
+The frontend is written in Angular framework. There is a separate repository for the frontend.
 
 ## Testing and Logging Specifications
 
