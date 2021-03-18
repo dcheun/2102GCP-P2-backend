@@ -11,6 +11,7 @@ public interface AppUserService {
 
     AppUser getAppUserById(int id);
     Set<AppUser> getAllAppUsers();
+    AppUser authenticate(String email, String pw);
 
     AppUser updateAppUser(AppUser appUser);
 
