@@ -37,4 +37,24 @@ class OnlineEducationApplicationTests {
         System.out.println(user1);
     }
 
+    @Test
+    void get_user() {
+        AppUser user = this.appUserRepo.findById(4).get();
+        System.out.println(user);
+        System.out.println(user.getStudentCourses());
+        System.out.println();
+        AppUser user2 = this.appUserRepo.findById(5).get();
+        System.out.println(user2);
+        System.out.println(user2.getStudentCourses());
+        System.out.println();
+        AppUser user3 = this.appUserRepo.findById(20).get();
+        System.out.println(user3);
+        System.out.println(user3.getStudentCourses());
+        System.out.println();
+        AppUser user4 = this.appUserRepo.findById(21).get();
+        System.out.println(user4);
+        System.out.println(user4.getStudentCourses());
+        System.out.println();
+    }
+
 }

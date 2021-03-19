@@ -3,6 +3,8 @@ package dev.tdz.entities;
 import org.hibernate.annotations.ColumnTransformer;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class AppUser {
@@ -21,7 +23,7 @@ public class AppUser {
     @Column(name = "email")
     private String email;
 
-   @ColumnTransformer(
+    @ColumnTransformer(
            write = "crypt(?, gen_salt('bf'))"
     )
     @Column(name = "pw")
@@ -30,6 +32,17 @@ public class AppUser {
     @JoinColumn(name = "id")
     @Column(name = "user_role_id")
     private int userRoleId;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_course",
+            joinColumns = {@JoinColumn(name="user_id")},
+            inverseJoinColumns = {@JoinColumn(name="course_id")}
+    )
+    private Set<Course> studentCourses = new HashSet<>();
+
+    @OneToMany(mappedBy = "instructorId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Course> instructorCourses = new HashSet<>();
 
     public AppUser() {
     }
@@ -91,6 +104,22 @@ public class AppUser {
         this.userRoleId = userRoleId;
     }
 
+    public Set<Course> getStudentCourses() {
+        return studentCourses;
+    }
+
+    public void setStudentCourses(Set<Course> studentCourses) {
+        this.studentCourses = studentCourses;
+    }
+
+    public Set<Course> getInstructorCourses() {
+        return instructorCourses;
+    }
+
+    public void setInstructorCourses(Set<Course> instructorCourses) {
+        this.instructorCourses = instructorCourses;
+    }
+
     @Override
     public String toString() {
         return "AppUser{" +
@@ -98,7 +127,6 @@ public class AppUser {
                 ", fName='" + fName + '\'' +
                 ", lName='" + lName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", userRoleId='" + userRoleId + '\'' +
                 '}';
     }

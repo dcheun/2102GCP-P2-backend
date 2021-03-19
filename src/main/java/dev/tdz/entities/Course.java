@@ -1,6 +1,8 @@
 package dev.tdz.entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Course {
@@ -20,6 +22,8 @@ public class Course {
     @Column(name = "instructor_id")
     private int instructorId;
 
+    @OneToMany(mappedBy = "courseId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<CourseMaterial> courseMaterials = new HashSet<>();
 
     public Course() {
     }
@@ -61,6 +65,14 @@ public class Course {
 
     public void setInstructorId(int instructorId) {
         this.instructorId = instructorId;
+    }
+
+    public Set<CourseMaterial> getCourseMaterials() {
+        return courseMaterials;
+    }
+
+    public void setCourseMaterials(Set<CourseMaterial> courseMaterials) {
+        this.courseMaterials = courseMaterials;
     }
 
     @Override
