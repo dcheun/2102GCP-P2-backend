@@ -1,5 +1,6 @@
 package dev.tdz.controllers;
 
+import dev.tdz.aspects.Authorized;
 import dev.tdz.entities.Course;
 import dev.tdz.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,4 +45,8 @@ public class CourseController {
         Boolean result = this.courseService.deleteCourseById(id);
         return result;
     }
+
+
+
+
 }
