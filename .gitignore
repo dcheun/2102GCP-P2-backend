@@ -43,4 +43,3 @@ hibernate.cfg.xml
 # gradle/wrapper/gradle-wrapper.properties
 .idea
 .env
-

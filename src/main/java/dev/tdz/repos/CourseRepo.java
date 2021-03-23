@@ -9,7 +9,4 @@ import org.springframework.stereotype.Repository;
 public interface CourseRepo extends CrudRepository<Course,Integer>{
 
 
-
-
-
 }

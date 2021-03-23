@@ -1,6 +1,7 @@
 package dev.tdz.controllers;
 
 import dev.tdz.aspects.Authorized;
+import dev.tdz.aspects.Logging;
 import dev.tdz.entities.Course;
 import dev.tdz.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +16,28 @@ public class CourseController {
     @Autowired
     CourseService courseService;
 
+    @Logging
     @GetMapping("/courses")
     public Set<Course> retrieveAllCourses() {
         Set<Course> courses = this.courseService.getAllCourses();
         return courses;
     }
 
+    @Logging
     @GetMapping("/courses/{id}")
     public Course getCourseById(@PathVariable int id) {
         Course course = this.courseService.getCourseById(id);
         return course;
     }
 
+    @Logging
     @PostMapping("/courses")
     public Course createCourse(@RequestBody Course course) {
         this.courseService.createCourse(course);
         return course;
     }
 
+    @Logging
     @PutMapping("/courses/{id}")
     public Course updateCourse(@PathVariable int id, @RequestBody Course course) {
         course.setId(id);
@@ -40,6 +45,7 @@ public class CourseController {
         return course;
     }
 
+    @Logging
     @DeleteMapping("/courses/{id}")
     public Boolean deleteCourseById(@PathVariable int id) {
         Boolean result = this.courseService.deleteCourseById(id);

@@ -1,5 +1,6 @@
 package dev.tdz.controllers;
 
+import dev.tdz.aspects.Logging;
 import dev.tdz.entities.AppUser;
 import dev.tdz.exceptions.NotAuthenticatedException;
 import dev.tdz.services.AppUserService;
@@ -25,6 +26,7 @@ public class LoginController {
     @Autowired
     AppUserService appUserService;
 
+    @Logging
     @PostMapping("/login")
     public String login(@RequestBody AppUser appUser) {
         AppUser authUser;
