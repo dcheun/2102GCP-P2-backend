@@ -2,6 +2,7 @@ package dev.tdz.controllers;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import dev.tdz.aspects.Authorized;
+import dev.tdz.aspects.Logging;
 import dev.tdz.entities.AppUser;
 import dev.tdz.exceptions.NotFoundException;
 import dev.tdz.services.AppUserService;
@@ -25,13 +26,14 @@ public class AppUserController {
     @Autowired
     AppUserService appUserService;
 
-    @Authorized
+    @Logging
     @GetMapping("/users")
     public Set<AppUser> retrieveAllUsers() {
         Set<AppUser> users = this.appUserService.getAllAppUsers();
         return users;
     }
 
+    @Logging
     @GetMapping("/users/{id}")
     public AppUser getUserById(@PathVariable int id) {
         AppUser user;
@@ -43,12 +45,16 @@ public class AppUserController {
         return user;
     }
 
+    @Logging
+    @Authorized
     @PostMapping("/users")
     public AppUser createUser(@RequestBody AppUser user) {
         this.appUserService.createAppUser(user);
         return user;
     }
 
+    @Logging
+    @Authorized
     @PutMapping("/users/{id}")
     public AppUser updateUser(@PathVariable int id, @RequestBody AppUser user) {
         user.setId(id);
@@ -56,6 +62,8 @@ public class AppUserController {
         return user;
     }
 
+    @Logging
+    @Authorized
     @DeleteMapping("/users/{id}")
     public Boolean deleteUserById(@PathVariable int id) {
         Boolean result;
