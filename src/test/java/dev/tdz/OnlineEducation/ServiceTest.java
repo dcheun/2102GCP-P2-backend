@@ -90,7 +90,7 @@ public class ServiceTest {
     @Test
     @Rollback
     public void create_rating(){
-        Rating rating = new Rating(0,4,"Good Course",3);
+        Rating rating = new Rating(0 ,4,4,3, "Good Course");
         ratingService.createRating(rating);
         System.out.println(rating);
     }
