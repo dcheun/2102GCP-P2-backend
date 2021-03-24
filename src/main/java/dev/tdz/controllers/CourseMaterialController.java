@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Component
 @RestController
 public class CourseMaterialController {
@@ -20,7 +21,8 @@ public class CourseMaterialController {
     @Logging
     @GetMapping("/coursematerials")
     public Set<CourseMaterial> retrieveAllCourseMaterials() {
-        Set<CourseMaterial> coursematerials = this.courseMaterialService.getAllCourseMaterials();
+        Set<CourseMaterial> coursematerials =
+                this.courseMaterialService.getAllCourseMaterials();
         return coursematerials;
     }
 
@@ -34,7 +36,9 @@ public class CourseMaterialController {
     @Logging
     @Authorized
     @PostMapping("/coursematerials")
-    public CourseMaterial createCourseMaterial(@RequestBody CourseMaterial courseMaterial) {
+    public CourseMaterial createCourseMaterial(
+            @RequestBody CourseMaterial courseMaterial
+    ) {
         this.courseMaterialService.createCourseMaterial(courseMaterial);
         return courseMaterial;
     }
@@ -42,7 +46,10 @@ public class CourseMaterialController {
     @Logging
     @Authorized
     @PutMapping("/coursematerials/{id}")
-    public CourseMaterial updateCourseMaterial(@PathVariable int id, @RequestBody CourseMaterial courseMaterial) {
+    public CourseMaterial updateCourseMaterial(
+            @PathVariable int id,
+            @RequestBody CourseMaterial courseMaterial
+    ) {
         courseMaterial.setId(id);
         this.courseMaterialService.updateCourseMaterial(courseMaterial);
         return courseMaterial;

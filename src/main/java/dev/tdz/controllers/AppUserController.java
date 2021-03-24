@@ -1,24 +1,19 @@
 package dev.tdz.controllers;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
 import dev.tdz.aspects.Authorized;
 import dev.tdz.aspects.Logging;
 import dev.tdz.entities.AppUser;
 import dev.tdz.exceptions.NotFoundException;
 import dev.tdz.services.AppUserService;
-import dev.tdz.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Component
 @RestController
 public class AppUserController {
@@ -29,8 +24,7 @@ public class AppUserController {
     @Logging
     @GetMapping("/users")
     public Set<AppUser> retrieveAllUsers() {
-        Set<AppUser> users = this.appUserService.getAllAppUsers();
-        return users;
+        return this.appUserService.getAllAppUsers();
     }
 
     @Logging

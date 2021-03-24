@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Component
 @RestController
 public class CourseController {
@@ -19,8 +20,7 @@ public class CourseController {
     @Logging
     @GetMapping("/courses")
     public Set<Course> retrieveAllCourses() {
-        Set<Course> courses = this.courseService.getAllCourses();
-        return courses;
+        return this.courseService.getAllCourses();
     }
 
     @Logging
@@ -51,8 +51,4 @@ public class CourseController {
         Boolean result = this.courseService.deleteCourseById(id);
         return result;
     }
-
-
-
-
 }

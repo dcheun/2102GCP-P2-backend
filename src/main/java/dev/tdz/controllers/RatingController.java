@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Component
 @RestController
 public class RatingController {
