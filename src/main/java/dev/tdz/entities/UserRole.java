@@ -1,8 +1,14 @@
 package dev.tdz.entities;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "user_role")
+@DynamicUpdate
+@SelectBeforeUpdate
 public class UserRole {
 
     @Id
@@ -10,7 +16,7 @@ public class UserRole {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "role_name")
+    @Column(name = "role_name", unique = true, nullable = false)
     private String roleName;
 
     public UserRole() {
@@ -44,4 +50,5 @@ public class UserRole {
                 ", roleName='" + roleName + '\'' +
                 '}';
     }
+
 }

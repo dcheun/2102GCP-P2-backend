@@ -1,5 +1,6 @@
 package dev.tdz.controllers;
 
+import dev.tdz.aspects.ErrorHandler;
 import dev.tdz.aspects.Logging;
 import dev.tdz.entities.UserRole;
 import dev.tdz.services.UserRoleService;
@@ -15,13 +16,15 @@ import java.util.Set;
 @Component
 @RestController
 public class UserRoleController {
+
     @Autowired
     UserRoleService userRoleService;
 
     @Logging
+    @ErrorHandler
     @GetMapping("/userroles")
     public Set<UserRole> retrieveAllUserRoles() {
-        Set<UserRole> userRoles = this.userRoleService.getAllUserRoles();
-        return userRoles;
+        return this.userRoleService.getAllUserRoles();
     }
+
 }

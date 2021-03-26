@@ -9,20 +9,18 @@ public class JwtUtil {
 
     private static final Dotenv dotenv = Dotenv.load();
     private static final String secret = dotenv.get("JWT_SECRET");
-
     private static final Algorithm algorithm = Algorithm.HMAC256(secret);
 
-    public static String generateJwtToken(int id, int userRoleId){
-        String token = JWT.create()
-                .withClaim("id",id)
-                .withClaim("userRoleId",userRoleId)
+    public static String generateJwtToken(int id, int userRoleId) {
+        return JWT.create()
+                .withClaim("id", id)
+                .withClaim("userRoleId", userRoleId)
                 .sign(algorithm);
-        return token;
     }
-    public static DecodedJWT verifyToken(String token){
+
+    public static DecodedJWT verifyToken(String token) {
         //throws JWTDecodeException
-        DecodedJWT jwt = JWT.require(algorithm).build().verify(token);
-        return jwt;
+        return JWT.require(algorithm).build().verify(token);
     }
 
 }

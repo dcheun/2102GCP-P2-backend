@@ -1,14 +1,10 @@
 package dev.tdz.aspects;
 
-import dev.tdz.controllers.AppUserController;
-import dev.tdz.services.AppUserService;
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.StringJoiner;
@@ -17,36 +13,42 @@ import java.util.StringJoiner;
 @Aspect
 public class LoggingAspect {
 
-
-
-    Logger logger = Logger.getLogger(LoggingAspect.class.getName());
-
+    private static final Logger logger = Logger.getLogger(
+            LoggingAspect.class.getName());
 
     @Around("logging()")
-    public Object  loggingAdvice(ProceedingJoinPoint pjp) throws Throwable{
-        StringBuilder sb = new StringBuilder();
-        Object obj = null;
+    public Object loggingAdvice(ProceedingJoinPoint pjp) throws Throwable {
+        StringJoiner sj = new StringJoiner(", ");
 
-        for(Object o1 : pjp.getArgs()){
-            sb.append(o1);
-            sb.append(", ");
+        for (Object o : pjp.getArgs()) {
+            sj.add(String.valueOf(o));
         }
-        logger.info(pjp.getSignature().getName() + "("+sb.toString() + ")" + " was executed ");
-       try{
-            obj = pjp.proceed();
-       }catch(Exception e){
-           logger.error(pjp.getSignature().getName() + " " + e.getMessage());
-           throw e;
-       }
-        return  obj;
+        logger.info("====== " + pjp.getSignature().toLongString() + " ======");
+        logger.info("  " + pjp.getSignature().toShortString().split("[(]")[0] +
+                "(" + sj.toString() + ")" + " was called");
+
+        return pjp.proceed();
     }
 
+    @Around("serviceLogging()")
+    public Object serviceLoggingAdvice(ProceedingJoinPoint pjp) throws Throwable {
+        StringJoiner sj = new StringJoiner(", ");
+
+        for (Object o : pjp.getArgs()) {
+            sj.add(String.valueOf(o));
+        }
+        logger.info("  " + pjp.getSignature().toShortString().split("[(]")[0] +
+                "(" + sj.toString() + ")" + " was called");
+
+        return pjp.proceed();
+    }
 
     @Pointcut("@annotation(dev.tdz.aspects.Logging)")
-    private void logging(){}
+    private void logging() {
+    }
 
-
-
-
+    @Pointcut("@annotation(dev.tdz.aspects.ServiceLogging)")
+    private void serviceLogging() {
+    }
 
 }
