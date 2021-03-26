@@ -1,9 +1,14 @@
 package dev.tdz.entities;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 
 @Entity
+@Table(name = "course_material")
+@DynamicUpdate
+@SelectBeforeUpdate
 public class CourseMaterial {
 
     @Id
@@ -17,9 +22,8 @@ public class CourseMaterial {
     @Column(name = "description")
     private String description;
 
-
-    @Column(name = "course_id")
     @JoinColumn(name = "id")
+    @Column(name = "course_id", nullable = false)
     private int courseId;
 
     public CourseMaterial() {
@@ -73,4 +77,5 @@ public class CourseMaterial {
                 ", courseId=" + courseId +
                 '}';
     }
+
 }

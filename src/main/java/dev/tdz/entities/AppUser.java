@@ -1,12 +1,17 @@
 package dev.tdz.entities;
 
 import org.hibernate.annotations.ColumnTransformer;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "app_user")
+@DynamicUpdate
+@SelectBeforeUpdate
 public class AppUser {
 
     @Id
@@ -14,17 +19,17 @@ public class AppUser {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String fName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String lName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
     @ColumnTransformer(
-           write = "crypt(?, gen_salt('bf'))"
+            write = "crypt(?, gen_salt('bf'))"
     )
     @Column(name = "pw")
     private String password;
@@ -36,8 +41,8 @@ public class AppUser {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_course",
-            joinColumns = {@JoinColumn(name="user_id")},
-            inverseJoinColumns = {@JoinColumn(name="course_id")}
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "course_id")}
     )
     private Set<Course> studentCourses = new HashSet<>();
 
@@ -130,4 +135,5 @@ public class AppUser {
                 ", userRoleId='" + userRoleId + '\'' +
                 '}';
     }
+
 }

@@ -1,10 +1,16 @@
 package dev.tdz.entities;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "course")
+@DynamicUpdate
+@SelectBeforeUpdate
 public class Course {
 
     @Id
@@ -12,14 +18,14 @@ public class Course {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "course_name")
+    @Column(name = "course_name", nullable = false)
     private String name;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
     @JoinColumn(name = "id")
-    @Column(name = "instructor_id")
+    @Column(name = "instructor_id", nullable = false)
     private int instructorId;
 
     @OneToMany(mappedBy = "courseId", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -84,4 +90,5 @@ public class Course {
                 ", instructorId=" + instructorId +
                 '}';
     }
+
 }

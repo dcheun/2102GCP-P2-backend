@@ -9,9 +9,11 @@ public interface CourseService {
     Course createCourse(Course course);
 
     Course getCourseById(int id);
+
     Set<Course> getAllCourses();
 
     Course updateCourse(Course course);
 
     boolean deleteCourseById(int id);
+
 }

@@ -7,7 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Component
 @Repository
-public interface CourseMaterialRepo extends CrudRepository<CourseMaterial,Integer> {
-
-
+public interface CourseMaterialRepo extends CrudRepository<CourseMaterial, Integer> {
 }

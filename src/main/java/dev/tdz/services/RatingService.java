@@ -9,7 +9,8 @@ public interface RatingService {
     Rating createRating(Rating rating);
 
     Rating getRatingById(int id);
-    Set<Rating>getAllRatings();
+
+    Set<Rating> getAllRatings();
 
     Rating updateRating(Rating rating);
 

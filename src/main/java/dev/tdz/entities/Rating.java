@@ -1,28 +1,34 @@
 package dev.tdz.entities;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.SelectBeforeUpdate;
+
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
-import java.util.Set;
 
 @Entity
-public class Rating implements Serializable {
+@Table(
+        name = "rating",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "course_id"})
+)
+@DynamicUpdate
+@SelectBeforeUpdate
+public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "user_id")
     @JoinColumn(name = "id")
+    @Column(name = "user_id", nullable = false)
     private int userId;
 
-    @Column(name = "course_id")
     @JoinColumn(name = "id")
-    private int courseId;
+    @Column(name = "course_id", nullable = false)
+    private Integer courseId;
 
     @Column(name = "stars")
-    private int stars;
+    private Integer stars;
 
     @Column(name = "rating_comment")
     private String comment;
@@ -54,19 +60,19 @@ public class Rating implements Serializable {
         this.userId = userId;
     }
 
-    public int getCourseId() {
+    public Integer getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(int courseId) {
+    public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
 
-    public int getStars() {
+    public Integer getStars() {
         return stars;
     }
 
-    public void setStars(int stars) {
+    public void setStars(Integer stars) {
         this.stars = stars;
     }
 
@@ -88,4 +94,5 @@ public class Rating implements Serializable {
                 ", comment='" + comment + '\'' +
                 '}';
     }
+
 }
