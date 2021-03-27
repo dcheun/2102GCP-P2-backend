@@ -7,6 +7,7 @@ import dev.tdz.repos.CourseRepo;
 import dev.tdz.utils.AppUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -80,6 +81,8 @@ public class CourseServiceImpl implements CourseService {
         try {
             this.courseRepo.deleteById(id);
             return true;
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("No such record exists");
         } catch (Exception e) {
             AppUtil.logException(logger, e,
                     "deleteCourseById: Unable to delete course with id=" + id);

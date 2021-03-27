@@ -7,6 +7,7 @@ import dev.tdz.repos.RatingRepo;
 import dev.tdz.utils.AppUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +80,9 @@ public class RatingServiceImpl implements RatingService {
         try {
             this.ratingRepo.deleteById(id);
             return true;
-        } catch (NoSuchElementException e) {
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("No such record exists");
+        } catch (Exception e) {
             AppUtil.logException(logger, e,
                     "deleteRatingById: Unable to delete rating with id=" + id);
             throw e;

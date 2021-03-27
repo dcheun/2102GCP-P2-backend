@@ -90,18 +90,11 @@ public class RatingController {
     @ErrorHandler
     @DeleteMapping("/ratings/{id}")
     public Boolean deleteRatingById(@PathVariable int id) {
-        // Check existence of entity to be deleted.
-        Rating currRating = this.getRatingById(id);
         // Get JWT claims
         HttpServletRequest request = (
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()
         ).getRequest();
         Integer authUserId = (Integer) request.getAttribute("authUserId");
-        Integer authRoleId = (Integer) request.getAttribute("authRoleId");
-        // Check user is deleting their own.
-        if (authUserId != currRating.getUserId()) {
-            throw new NotAuthorizedException("You can only delete your own");
-        }
         return this.ratingService.deleteRatingById(id);
     }
 

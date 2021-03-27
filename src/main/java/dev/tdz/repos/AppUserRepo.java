@@ -16,4 +16,6 @@ public interface AppUserRepo extends CrudRepository<AppUser, Integer> {
             nativeQuery = true)
     AppUser authenticate(@Param("email") String email, @Param("pw") String pw);
 
+    AppUser findByEmail(String email);
+
 }

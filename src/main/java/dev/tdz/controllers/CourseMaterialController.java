@@ -107,9 +107,6 @@ public class CourseMaterialController {
     @ErrorHandler
     @DeleteMapping("/coursematerials/{id}")
     public Boolean deleteCourseMaterialById(@PathVariable int id) {
-        // Check existence of entity to be deleted.
-        CourseMaterial currCourseMaterial = this.getCourseMaterialById(id);
-        Course parentCourse = this.courseService.getCourseById(currCourseMaterial.getCourseId());
         // Get JWT claims.
         HttpServletRequest request = (
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()
@@ -119,10 +116,6 @@ public class CourseMaterialController {
         // Check for instructor.
         if (authRoleId != 1) {
             throw new NotAuthorizedException("Must be instructor to delete material");
-        }
-        // Check if user is deleting his/her own material.
-        if (authUserId != parentCourse.getInstructorId()) {
-            throw new NotAuthorizedException("You can only delete your own material");
         }
         return this.courseMaterialService.deleteCourseMaterialById(id);
     }

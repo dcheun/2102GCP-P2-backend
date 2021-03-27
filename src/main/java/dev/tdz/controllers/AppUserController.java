@@ -92,8 +92,6 @@ public class AppUserController {
     @ErrorHandler
     @DeleteMapping("/users/{id}")
     public Boolean deleteUserById(@PathVariable int id) {
-        // Check existence of entity to be deleted.
-        AppUser appUser = this.getUserById(id);
         // Get JWT claims.
         HttpServletRequest request = (
                 (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()

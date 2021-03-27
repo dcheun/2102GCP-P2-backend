@@ -2,12 +2,14 @@ package dev.tdz.services;
 
 import dev.tdz.aspects.ServiceLogging;
 import dev.tdz.entities.AppUser;
+import dev.tdz.exceptions.BadRequestException;
 import dev.tdz.exceptions.NotAuthenticatedException;
 import dev.tdz.exceptions.NotFoundException;
 import dev.tdz.repos.AppUserRepo;
 import dev.tdz.utils.AppUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,9 @@ public class AppUserServiceImpl implements AppUserService {
         try {
             return this.appUserRepo.save(appUser);
         } catch (Exception e) {
+            if (e.getMessage().contains("constraint [app_user_email_key]")) {
+                throw new BadRequestException("A user with that email already exists");
+            }
             AppUtil.logException(logger, e, "createAppUser: Unable to create");
             throw e;
         }
@@ -67,13 +72,11 @@ public class AppUserServiceImpl implements AppUserService {
     @ServiceLogging
     @Override
     public AppUser getAppUserByEmail(String email) {
-        Set<AppUser> allAppUsers = this.getAllAppUsers();
-        for (AppUser u : allAppUsers) {
-            if (u.getEmail().equals(email)) {
-                return u;
-            }
+        AppUser appUser = this.appUserRepo.findByEmail(email);
+        if (appUser == null) {
+            throw new NotFoundException("No user with that email exists");
         }
-        throw new NotFoundException("No user with that email exists");
+        return appUser;
     }
 
     @ServiceLogging
@@ -117,6 +120,8 @@ public class AppUserServiceImpl implements AppUserService {
             // controller layer.
             this.appUserRepo.deleteById(id);
             return true;
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("No such record exists");
         } catch (Exception e) {
             AppUtil.logException(logger, e,
                     "deleteAppUserById: Unable to delete user with id=" + id);

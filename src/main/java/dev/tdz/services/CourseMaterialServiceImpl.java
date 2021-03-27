@@ -7,6 +7,7 @@ import dev.tdz.repos.CourseMaterialRepo;
 import dev.tdz.utils.AppUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -77,8 +78,10 @@ public class CourseMaterialServiceImpl implements CourseMaterialService {
     @Override
     public boolean deleteCourseMaterialById(int id) {
         try {
-            this.getCourseMaterialById(id);
+            this.courseMaterialRepo.deleteById(id);
             return true;
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException("No such course material exists");
         } catch (Exception e) {
             AppUtil.logException(logger, e,
                     "deleteCourseMaterialById: Unable to delete course material with id=" + id);
